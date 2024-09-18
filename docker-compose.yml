@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+    php:
+        build: 
+          context: ./docker
+        container_name: php
+        ports:
+          - "8000:80"
+        volumes:
+          - ./docker/default.conf:/etc/apache2/sites-enabled/000-default.conf
+          - .:/var/www
+        restart: always
+        networks:
+          - dev
+networks:
+  dev:
