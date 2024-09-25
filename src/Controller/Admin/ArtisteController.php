@@ -29,9 +29,15 @@ class ArtisteController extends AbstractController
     }
 
     #[Route('/admin/artiste/ajout', name: 'app_admin_artiste_ajout', methods:['GET','POST'])]
-    public function ajoutArtiste(ArtisteRepository $repo, PaginatorInterface $paginator, Request $request, EntityManagerInterface $manager): Response
+    #[Route('/admin/artiste/modif/{id}', name: 'app_admin_artiste_modif', methods:['GET','POST'])]
+    public function ajoutModifArtiste(Artiste $artiste=null, ArtisteRepository $repo, PaginatorInterface $paginator, Request $request, EntityManagerInterface $manager): Response
     {
-        $artiste=new Artiste();
+        if($artiste == null){
+            $artiste=new Artiste();
+            $mode="ajouté";
+        } else{
+            $mode="modifié";    
+        }     
         $form=$this->createForm(ArtisteType::class, $artiste);
         $form->handleRequest($request);
 
@@ -39,13 +45,31 @@ class ArtisteController extends AbstractController
         {
             $manager->persist($artiste);
             $manager->flush();
-            $this->addFlash("success", "L'artiste à bien été ajouté !");
+            $this->addFlash("success", "L'artiste à bien été $mode !");
             return $this->redirectToRoute('app_admin_artiste');
         }
 
-        return $this->render('admin/artiste/formAjoutArtiste.html.twig', [
+        return $this->render('admin/artiste/formAjoutModifArtiste.html.twig', [
             'formArtiste' => $form->createView()
         ]);
 
     }
+
+    #[Route('/admin/artiste/suppression/{id}', name: 'app_admin_artiste_suppr', methods:("GET"))]
+    public function SuppressionArtiste(Artiste $artiste, ArtisteRepository $repo, EntityManagerInterface $manager): Response
+    {
+        $nbAlbums=$artiste->getAlbums()->count();
+        if($nbAlbums>0){
+            $this->addFlash("danger", "Vous ne pouvez pas supprimer cet artiste car $nbAlbums album(s) y sont associé(s) ! ");
+        }else{
+            $manager->remove($artiste);   
+            $manager->flush();
+            $this->addFlash("success", "L'artiste à bien été supprimé !");
+        }
+      
+        return $this->redirectToRoute('app_admin_artiste');
+
+    }
+
+    
 }

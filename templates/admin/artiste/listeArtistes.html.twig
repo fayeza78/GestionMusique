@@ -31,9 +31,11 @@
                     </p>
                     <p>{{leArtiste.description|slice(0,100)|raw}}...</p></td>  
                 <td class="col-2">
-                    <a href="" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                    <a href="{{path('app_admin_artiste_modif', {'id': leArtiste.id})}}" class="btn btn-primary"><i class="fas fa-pen"></i></a>
                     <!-- Button trigger modal -->
-                    <a type="button" class="btn btn-danger" data-toggle="modalSimple" data-target="#exampleModal">
+                    <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalSimple" data-titre=" Suppression d'un artiste" data-message="Etes-vous sur de vouloir supprimer l'artiste : {{leArtiste.nom}}" 
+                    data-libelleBouton = "Supprimer l'artiste"
+                    data-lien="{{path('app_admin_artiste_suppr', {'id': leArtiste.id})}}">
                     <i class="fa fa-trash-alt"></i>
                     </a>
                 </td>
@@ -42,8 +44,12 @@
     </tbody>
 </table>
     
-         <div class="navigation mx-auto">
+    <div class="navigation mx-auto">
         {{ knp_pagination_render(lesArtistes) }}
-</div>     
-    </div>
+    </div>     
+</div>
+    
+{% endblock %}
+{% block javascripts %}
+{% include 'include/_modale.html.twig' %}
 {% endblock %}
