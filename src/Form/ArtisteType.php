@@ -6,18 +6,34 @@ use App\Entity\Artiste;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ArtisteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-            ->add('description')
-            ->add('site')
-            ->add('image')
-            ->add('type')
+            ->add('nom', TextType::class, [
+                'attr'=>[
+                    'placeholder'=>"Saisir le nom de l'artiste"
+                ]
+            ])
+            ->add('description', TextareaType::class, [
+                'attr'=>[
+                    'placeholder'=>"Décrivez-vous !"
+                ]])
+            ->add('site', UrlType::class)
+            ->add('image', TextareaType::class)
+            ->add('type', ChoiceType::class,[
+                "choices"=>[
+                    "Solo"=>0,
+                    "Groupe"=>1
+                ]
+            ])
             //->add('valider', SubmitType::class)
         ;
     }

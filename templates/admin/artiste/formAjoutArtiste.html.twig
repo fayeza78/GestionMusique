@@ -7,8 +7,20 @@
 
   {{form_start(formArtiste)}}
     
-    {{form_row(formArtiste)}}
-  <input type"submit", class="btn btn-success" value="valider">
+    {{form_row(formArtiste.nom)}}
+    {{form_row(formArtiste.description)}}
+    <div class="row">
+      <div class="col">{{form_row(formArtiste.site)}}</div>
+      <div class="col">{{form_row(formArtiste.type)}}</div>
+    </div>  
+    {{form_row(formArtiste.image)}}
+
+    <div class="row">
+      <div class="col"><input type="submit", class="btn btn-success btn-block" value="Valider"></div>
+      <div class="col"><a href="{{path('app_admin_artiste')}}" class="btn btn-warning btn-block">Annuler</a></div>
+    </div>  
+  
+  
 
   {{form_end(formArtiste)}}
 {% endblock %}
