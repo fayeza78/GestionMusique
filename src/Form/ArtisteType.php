@@ -27,7 +27,9 @@ class ArtisteType extends AbstractType
                     'placeholder'=>"Décrivez-vous !"
                 ]])
             ->add('site', UrlType::class)
-            ->add('image', TextareaType::class)
+            ->add('image', TextareaType::class, [
+                'required'=>false
+            ])
             ->add('type', ChoiceType::class,[
                 "choices"=>[
                     "Solo"=>0,

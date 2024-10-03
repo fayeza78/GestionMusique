@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des albums{% endblock %}
+
+{% block body %}
+ <h1 class="pt-2 text-center">Gestion des albums</h1>
+    <a href="{{path('app_admin_album_ajout')}}" class="btn btn-success">Ajouter un album</a>
+    <hr>
+    <table class="table table-hover"> 
+    <thead>
+    <tr>
+      <th scope="col-1"></th>
+      <th scope="col-3">Nom</th>
+      <th scope="col-1">Année</th>
+      <th scope="col-2">Artiste</th>
+      <th scope="col-1">Styles</th>
+      <th scope="col-2">Morceaux</th>
+      <th scope="col-2">Actions</th>
+    </tr>
+  </thead>
+    <tbody>   
+        {% for leAlbum in lesAlbums %}
+            {% set nbMorceaux = leAlbum.morceaux|length %}     
+                <tr>
+                <td class="col-1">
+                    <img class="avatar mx-auto d-block style" style="height: auto; width: 50px; display: block;" src="{{leAlbum.image}}" alt="image">
+                    </img>
+                </td>
+                <td class="col-3">{{leAlbum.nom}}</td>
+                <td class="col-1">{{leAlbum.date}}</td>
+                <td class="col-2">{{leAlbum.artiste.nom}}</td>
+                <td class="col-1">
+                    {% for leStyle in leAlbum.styles %}
+                        <span class="badge" style="background-color: {{leStyle.couleur}};">{{leStyle.nom}}</span>
+                    {% endfor %}
+                </td>    
+
+                <td class="col-2">
+                    <span class="align-self-center badge badge-success">{{nbMorceaux}} {% if nbMorceaux> 1 %} morceaux {%else%} morceau {% endif %}</span>
+                </td> 
+                        
+                <td class="col-2">
+                    <a href="{{path('app_admin_album_modif', {'id': leAlbum.id})}}" class="btn btn-primary"><i class="fas fa-pen"></i></a>
+                    <!-- Button trigger modal -->
+                    <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalSimple" data-titre=" Suppression d'un album" data-message="Etes-vous sur de vouloir supprimer l'album : {{leAlbum.nom}}" 
+                    data-libelleBouton = "Supprimer l'album"
+                    data-lien="{{path('app_admin_album_suppr', {'id': leAlbum.id})}}">
+                    <i class="fa fa-trash-alt"></i>
+                    </a>
+                </td>
+                </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    
+    <div class="navigation mx-auto">
+        {{ knp_pagination_render(lesAlbums) }}
+    </div>     
+</div>
+    
+{% endblock %}
+{% block javascripts %}
+{% include 'include/_modale.html.twig' %}
+{% endblock %}

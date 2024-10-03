@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout/Modif des Style{% endblock %}
+
+{% block body %}
+  <h1 class="pt-2 text-center">
+  {% if (app.request.attributes.get('_route')=="app_admin_style_ajout") %}
+    Ajout
+    {% else %}
+    Modification
+  {% endif %}
+   d'un style</h1>
+
+  {{form_start(formStyle)}}
+    <div class="row">
+      <div class="col-8">{{form_row(formStyle.nom)}}</div>
+      <div class="col">{{form_row(formStyle.couleur)}}</div>
+    </div>
+    
+    
+    
+
+    <div class="row">
+      <div class="col"><input type="submit", class="btn btn-success btn-block" value=
+      {% if (app.request.attributes.get('_route')=="app_admin_style_ajout") %}
+    "Ajouter le style"
+    {% else %}
+    "Modifier le style"
+  {% endif %}></div>
+      <div class="col"><a href="{{path('app_admin_style')}}" class="btn btn-warning btn-block">Annuler</a></div>
+    </div>  
+  
+  
+
+  {{form_end(formStyle)}}
+{% endblock %}
